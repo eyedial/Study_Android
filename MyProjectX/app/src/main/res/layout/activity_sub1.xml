@@ -50,7 +50,7 @@
             android:layout_weight="1"
             android:background="@android:color/holo_orange_dark"
             android:onClick="btn4Clicked"
-            android:text="메인으로" />
+            android:text="메인" />
 
     </LinearLayout>
 

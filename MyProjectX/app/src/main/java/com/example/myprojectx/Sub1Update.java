@@ -29,6 +29,7 @@ import com.example.myprojectx.Dto.MyItem;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.example.myprojectx.Common.CommonMethod.ipConfig;
@@ -36,6 +37,7 @@ import static com.example.myprojectx.Common.CommonMethod.isNetworkConnected;
 
 
 public class Sub1Update extends AppCompatActivity {
+    private static final String TAG = "main:Sub1Update";
 
     EditText etId, etName;
     String id, name, date;
@@ -161,11 +163,19 @@ public class Sub1Update extends AppCompatActivity {
     }
 
     private File createFile() throws IOException {
-        java.text.SimpleDateFormat tmpDateFormat = new java.text.SimpleDateFormat("yyyyMMdd_HHmmss");
 
-        String imageFileName = "My" + tmpDateFormat.format(new Date()) + ".jpg";
-        File storageDir = Environment.getExternalStorageDirectory();
-        File curFile = new File(storageDir, imageFileName);
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+        String imageFileName = "My" + timestamp;
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File curFile = null;
+        try {
+            curFile = File.createTempFile(imageFileName, ".jpg", storageDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageRealPathU = curFile.getAbsolutePath();
+        Log.d(TAG, "createFile: " + imageRealPathU);
 
         return curFile;
     }
@@ -173,29 +183,24 @@ public class Sub1Update extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // 사진찍기
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
 
             try {
-                // 이미지 돌리기 및 리사이즈
-                Bitmap newBitmap = CommonMethod.imageRotateAndResize(file.getAbsolutePath());
-                if(newBitmap != null){
-                    imageView.setImageBitmap(newBitmap);
-                }else{
-                    Toast.makeText(this, "이미지가 null 입니다...", Toast.LENGTH_SHORT).show();
-                }
-
                 imageRealPathU = file.getAbsolutePath();
                 String uploadFileName = imageRealPathU.split("/")[imageRealPathU.split("/").length - 1];
                 imageDbPathU = ipConfig + "/app/resources/" + uploadFileName;
 
-                ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-
-                Log.d("Sub1Update:picPath", file.getAbsolutePath());
+                // 이미지 저장하기
+                galleryAddPic();
+                // 이미지 가져오기
+                setPic();
 
             } catch (Exception e){
                 e.printStackTrace();
             }
+
+        // 갤러리에서 이미지 가져오기
         }else if (requestCode == LOAD_IMAGE && resultCode == RESULT_OK) {
 
             try {
@@ -236,6 +241,41 @@ public class Sub1Update extends AppCompatActivity {
         }
         cursor.close();
         return res;
+    }
+
+    // 갤러리에 사진 추가
+    private void galleryAddPic() {
+        Intent mediaScanIntent =
+                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(imageRealPathU);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
+    // 이미지뷰의 크기에 맞게 디코딩하여 이미지 가져오기
+    private void setPic() {
+        // 이미지뷰의 크기 알아오기
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
+
+        // 비트맵 크기 알아오기
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // 얼마나 조정하여 이미지를 다운 스케일 할것인가 결정한다
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // 이미지파일을 비트맵 사이즈에 맞게 조정한다
+        bmOptions.inJustDecodeBounds =false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathU, bmOptions);
+        imageView.setImageBitmap(bitmap);
+
     }
 
     public void btnUpdateClicked(View view){
