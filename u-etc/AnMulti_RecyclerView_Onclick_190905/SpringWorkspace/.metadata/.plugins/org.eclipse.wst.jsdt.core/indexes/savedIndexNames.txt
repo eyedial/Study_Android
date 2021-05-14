@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+D:\ChossLec\Android_191107\AndroidProject\AnMulti_RecyclerView_Onclick_190905\SpringWorkspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+1594803696.index
+2343285220.index
+3810253394.index
+3333638721.index
+874531174.index
+3150220332.index

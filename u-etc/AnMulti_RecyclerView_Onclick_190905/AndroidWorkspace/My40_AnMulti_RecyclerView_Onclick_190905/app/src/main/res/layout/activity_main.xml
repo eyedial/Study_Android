@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignStart="@+id/btnExit"
+        android:layout_alignLeft="@+id/btnExit"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="55dp"
+        android:background="@android:color/holo_orange_dark"
+        android:text="리스트보기\n 추가, 수정, 삭제"
+        tools:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:background="@android:color/holo_orange_dark"
+        android:text="종료"
+        android:textSize="24sp" />
+
+</RelativeLayout>

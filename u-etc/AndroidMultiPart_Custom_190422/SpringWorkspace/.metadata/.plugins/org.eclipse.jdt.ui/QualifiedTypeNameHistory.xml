@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.csslect.app.arducommand.ArduCommand"/>
+<fullyQualifiedTypeName name="com.csslect.app.ardudao.ArduDao"/>
+<fullyQualifiedTypeName name="com.csslect.app.arducommand.ArduLedCommand"/>
+<fullyQualifiedTypeName name="com.csslect.app.ardudto.ArduDto"/>
+<fullyQualifiedTypeName name="com.csslect.app.arducommand.ArduSetLedCommand"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+</qualifiedTypeNameHistroy>

@@ -1,0 +1,9 @@
+SpringWorkspace/target/
+SpringWorkspace/.settings/
+SpringWorkspace/src/test/
+SpringWorkspace/.classpath
+SpringWorkspace/.project
+SpringWorkspace/.springBeans
+
+SpringWorkspace/Servers/
+SpringWorkspace/.metadata/

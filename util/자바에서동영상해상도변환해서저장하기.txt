@@ -1,0 +1,145 @@
+java를 사용해서 실시간으로 업로드되는 영상을 ffmpeg를 사용해서 변화시키는 부분입니다.
+ffmpeg는 로컬로 돌아가는 프로그램이라서 java에서 
+해당 프로그램을 실행을 시켜야 합니다.
+
+윈도우라면 exe파일을 실행을 시켜야 한다는 것인데
+java에서는 ProcessBuilder 라는 놈이 사용되고 있습니다.
+
+순서는  A폴더에  파일이 들어왔는지 실시간으로 체크하고 
+ffmpeg로 인코딩하고 완료가되면 B폴더로 옮기게 됩니다.
+
+public String convert() {
+
+
+String ffmpegPath = "ffmpeg 파일이 있는 경로";    예) /work/ffmpeg
+String fOriginal = "/work/upload.mp4";  //실시간으로 업로드되는 파일
+String fResult = "/work/upload.flv";      // 인코딩하고 저장 할 파일위치
+
+String[] cmdLine = new String[]{ffmpegPath,
+                                               "-i",                           // 변환시킬 파일위치
+
+                                               fOriginal,      
+
+                                               "-ar",
+
+                                               "44100",                
+
+                                               "-ab",
+
+                                               "32",                      
+
+                                               "-s",
+
+                                               "500x300",     //화면 사이즈
+
+                                               "-b",
+
+                                               "768k",          //비트레이트
+
+                                               "-r",
+
+                                               "24",           //영상 프레임
+
+                                               "-y",
+
+                                               "-f",
+
+                                               "flv",            // flv파일 형태로 출력
+
+                                               fResult};  // 저장하는 위치입니다.
+ 
+// 프로세스 속성을 관리하는 ProcessBuilder 생성.
+ProcessBuilder pb = new ProcessBuilder(cmdLine);
+pb.redirectErrorStream(true);
+Process p = null;
+ try { 
+        // 프로세스 작업을 실행
+        p = pb.start();
+} catch (Exception e) {         
+     e.printStackTrace();
+
+     p.destroy();
+     return null;
+}
+
+exhaustInputStream(p.getInputStream());   // 자식 프로세스에서 발생되는 inputstrem를 소비시켜야합니다.
+
+  try {
+
+        // p의 자식 프로세스의 작업이 완료될 동안 p를 대기시킴
+        p.waitFor();
+
+ } catch (InterruptedException e) {
+
+         p.destroy();
+
+ }
+
+
+// 정상 종료가 되지 않았을 경우
+
+ if (p.exitValue() != 0) {
+
+       System.out.println("변환 중 에러 발생");
+
+       return null;
+
+ }
+
+   // 변환을 하는 중 에러가 발생하여 파일의 크기가 0일 경우
+
+  if (fResult.length() == 0) {
+
+        System.out.println("변환된 파일의 사이즈가 0임");
+
+         return null;
+
+  }
+
+  p.destroy();
+
+}
+
+private void exhaustInputStream(final InputStream is) {
+    // InputStream.read() 에서 블럭상태에 빠지기 때문에 따로 쓰레드를 구현하여 스트림을 소비한다
+         try {
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+                String cmd = null;
+
+                while((cmd = br.readLine()) != null) { // 읽어들일 라인이 없을때까지 계속 반복
+
+                   //System.out.println(cmd);
+
+                }
+
+                br.close();
+
+             } catch(IOException e) {
+
+                e.printStackTrace();
+
+             }
+
+   }
+
+public static void main(String[] args) 
+{
+ File f = new File("실시간으로 올라오는 파일위치");
+if(f.exists()){
+     convert();
+} 
+
+} 
+
+
+단일 프로세스보다는 스레드로 돌리면 더 좋겟죠?
+인코딩을 하게되면 cpu를 많이 잡아 먹습니다. ffmpeg가 아니더라도 막 올라가더군요..
+ 
+이제 이 파일을 window 에서는 service로 linux에서는 crontab에 들록되어
+계속해서 돌려주면 되겠습니다.
+
+
+
+출처: https://dakccom.tistory.com/entry/ffmpeg-를-활용한-동영상-변환-자동화-구축-java로-구현 [닥컴 - 개발자]

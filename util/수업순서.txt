@@ -1,0 +1,578 @@
+설치후 초기설정화면이 나타나지 않고 오류
+  - 사용자 계정이 한글로 되어 있을 경우
+  - 메모리 용량이 작을때 
+    C:\Program Files\Android\Android Studio\bin 아래에
+    studio64.exe.vmoptions 파일을 찾아 메모장에 열기
+    -Xmx로 시작하는줄을 -Xmx2048m 으로 수정후 실행
+
+이전에설치한 안드로이드 제거하고 싶을때
+  - C:\Program Files\Android\Android Studio
+  - C:\Users\Administrator\.android
+  - C:\Users\Administrator\.AndroidStudio3.5
+  - C:\Users\Administrator\.gradle
+  - C:\Users\Administrator\AppData\Local\Android\Sdk
+
+애뮬레이터가 만들어지지 않을때
+  - install "vc_redist.x64.exe"
+
+    https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads
+
+    Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017 and 2019
+
+    I had this "unknown" error today under Windows 10 as well. There was a new Android Studio     version and a new emulator. I first renamed the folder ".AndroidStudio3.5" ("C:\Users    [YourName]") and old settings not imported. I tried reinstalling the emulator this way.
+
+    Unable to run mksdcard.exe SDK tool android v3.5.2 at windows10
+
+    Because of "mksdcard.exe" error this was not possible. I installed "vc_redist.x64.exe" and     could use the old folder ".AndroidStudio3.5" again.
+
+
+
+1. 안드로이드 스튜디오 설치 : 안드로이드 특징 설명하기
+   . https://developer.android.com/studio
+   . SDK 플랫폼 다운 , 추가설치
+
+2. 안드로이드 스튜디오 헬로 월드 프로젝드 만들기
+   . font 크기 조절
+   . File-Setting-Editor-General- Auto Import -> 모두 체크
+   . 가상머신 환경설정(에뮬레이터)
+   . 각자의 핸드폰 연결하기(드라이버설치, 핸드폰 개발자상태로 바꾸기)
+   . 각 툴 기능 설명하기(프로젝트 영역)
+
+3. 안드로이드 한글깨짐현상   
+   plugins/android/lib/layoutlib/data/fonts/fonts.xml
+   <family lang="ko">
+   <font weight="400" style="normal" index="1">NanumGothic.ttf</font>
+   </family>
+
+4. 파트1 - Hello
+   화면단위 - 액티비티 : 자바소스코드와 xml파일 두개로 이루어짐
+   뷰와 뷰그룹 , 위젯, 레이아웃
+   xml 수정해서 버튼으로 만들기
+   setting에 google-services 설치
+   버튼으로 이벤트만들기 => 버튼하나 더만들어서 이벤트 걸어주기(학생)
+   버튼으로 토스트 띄우기
+   토스트 설명   
+   
+
+5. 파트2 - 1장
+   레이아웃  
+   (00_MyConstraintLayout) - 제약레이아웃 : 디폴트레이아웃
+                             연결점 4개 : 다른 타깃과의 연결 
+                                          -> 최소3개 연결하면됨
+
+   (01_MyLineLayout) - 리니어레이아웃 : 
+                        . 여러개 버튼 놓아보기,
+                        . 속성 설명
+                          (넓이,높이, 그래비티, 레이아웃그래비티, 
+                           패딩, 레이아웃 마진, 레이아웃웨이트)
+                        . xml - 직접 손댐 
+                        . 두개버튼 레이아웃웨이트 - 화면분할
+                        . 버튼에 이벤트 거는거 두가지 설명 
+                          ->  findViewById, onClick
+
+   (03_MyRelativeLayout) - 렐러티브레이아웃 
+                           -> 다른뷰나 부모레이아웃의 상대적인위치 지정 
+
+   (04_01MyScrollLayout) - 스크롤 레이아웃
+                           -> 이미지 서로 다른것 바뀌면서 스크롤 보여주기
+
+   (04_MyFrameLayout) - 프레임레이아웃 : 중첩되어 보여줌 
+                        -> imageView3.setImageResource(R.drawable.dream01)
+
+   (SampleBasicWidget) - 기본위젯 : 버튼, 에디트텍스트, 이미지뷰, 텍스트뷰
+
+   (05_MyAllLayout1) - 시험
+
+6. 파트2 - 2장
+
+   드로어블 : 배경화면을 만들어서 바꾸고자 할때 back_drawable
+              클릭할때와 하지않았을때 다른이미지 보이고자 할때 finger_drawable
+              xml로 버튼을 직접 만들고자 할때 
+                    sharp 과 layer-list 안에 여러개 sharp을 중첩시켜 보여줌
+
+   (06_MyLayoutInflater) - 레이아웃인플레이터 
+                           -> xml레이아웃의 내용을 화면의 일부분으로 적용하는것
+
+   * 액티비티 스택 : 새로운 화면이 실행되면 기존에 있는 화면이 뒤로 숨는것과 
+                     같고 제일위에 있는 화면이 끝나면 제일 바로 밑에 있는 
+                     화면이 실행 
+
+   (07_MyIntent) :  화면 전환   
+
+   (08_MyIntentResult) : 화면 전환과 화면간 데이터를 교환하고자 할때 
+                         인텐트 설명 => 부가데이터 : 엑스트라
+                         위 두개 모두 설명 
+                         -> 메인화면과 서브화면에 텍스트뷰를 새로 만들어서 
+                            그 텍스트뷰에 데이터 보여주기, 객체 넘기기
+
+   * MyIntentParcel : 인텐드안에 번들객체를 이용한 엑스트라 값 넘기기 
+                      객체에 Parcelable를 implements해줘야 함
+
+   (09_MyDialog) : 대화상자 띄우기
+
+   * 명시적 인텐트 : 직접 레이아웃을 만들어 인텐트를 만들어서 보내는 것
+     암시적 인텐트 : 레이아웃을 만들지않고 전화나 인터넷을 암시적으로 보내준것  
+
+   (10_MyCallIntent) : 메니페스트 권한 설명
+
+   * 수명주기 : 실행 : 최상위(보이면서 실행)
+                일시중지(보이기는하지만 포커스 받지못함)
+                중지(완전히 가려져 보이지않음)
+
+   (11_MyLifeCycle)
+   
+   (12_MyService) : 메니페스트에 서비스를 등록해야함 
+                    -> New - Service 로 만들면 자동으로 등록
+                    백그라운드에서 실행되는 프로그램
+                    -> Tools - Android - Android Device Monitor 에서 확인
+             
+   (13_MySMSReceiver) 
+     1.메니페스트에 서비스 등록 
+       => New - other - Broadcast Receiver 만들고 
+          메니페스트에 가서  <receiver 에
+            <intent-filter>
+            <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+          필터 등록 추가 해줌
+          그리고 RECEIVE_SMS 권한을 등록해줌
+     2.문자메세지가 디스플레이되는 액티비티 만들어줌
+     3.만약 단말기가 꺼져있다면 단말기 깨움
+
+   * 리소스와 메니페스트 : 메니페스트 설명하고 메니페스트안에 
+                           리소스(애플리케이션 이미지)를 바꾸어보도록 유도             
+   
+   
+   7. 파트2 - 3장(화면 관리)
+
+   (14_MyTouchEvent)
+    이벤트 종류 
+    -> onClickListener, onTouchListener, 
+       제스처이벤트 처리하기, 키이벤트 처리하기  
+
+   (15_01_Orientation)
+     가로 세로 방향으로 바꾸기 : 메모리에서 사라지면서 새로운 레이아웃을 만들기
+     때문에 가로,세로 방향의 xml을 모두 만들어야 한다.
+     1. 먼저 res에 마우스 오른쪽 버튼을 눌러 android resource directory 를 클릭
+     2. Resource type을 layout으로 변경후 이름을 layout-land로 변경후 OK 버튼
+     3. Android에서는 필요한 정보만 보여주기 때문에 안보이니 Project 형태로 변경
+     4. layout 위치에서 activity_main.xml 복사한후 layout위치에서 붙여넣기 하면
+        layout-land 위치로 붙여넣기가 됨
+     5. 글씨를 가로방향, 세로방향으로 바꾼후 실행 
+     6. 그 후 각 xml에 에디트텍스트와 버튼 하나씩 만든다
+     7. 자바파일로 가서 마우스 오른쪽 버튼 클릭 Generate -> Override Method ->
+        onSaveInstanceState 클릭
+     8. 자바파일에서 처리
+
+   (15_01_Orientation2) : 레이아웃이 바뀌지 않을때 그냥 가로,세로만 바뀔때
+     1. 메니페스트파일에 android:configChanges를 추가 속성 설정
+     2. <activity android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+     3. Java파일로 가서 onConfigurationChanged() 재정의
+
+   
+   
+
+   (15_MyToast) : 토스트 메세지 띄우기 
+    . 위치변경
+    . 모양변경 - .toastborder.xml 이란 layout을 만들어 LayoutInflater를 
+                   사용해 인플레이션 시켜야 함
+                 .그리고 xml은 리니어레이아웃안에 텍스트 뷰 태그 하나를 
+                   두는데 반드시 이형태로 정의해야함
+    . 스낵바 - 외부라이브러리를 추가 : com.android.support:design
+
+   (16_MyDialog) : 다이얼로그박스 띄우기 
+   
+   (17_MyProgress) : 프로그래스바 , 스피너
+   . 일의 진행상태 표시  
+      indeterminateOnly : 최대값 지정안된상태 진행중 여기서는 진행률값 
+                          표시하므로 'false'표시
+                          max : 바의 최대값
+   . 시크바 : 프로그래스바를 확장 사용자가 값을 조정가능 
+              -> 시크바 상태변할때마다 호출
+   
+
+   * 프래그먼트 
+     화면의 일정영역을 독립적으로 처리하기위해 만들어진특별한 화면구성요소 
+     -> 직접 만들어서 제어
+	.프래그먼트 매니저에게 요청 -> 트랜잭션 => 교체,수정,삭제 -> 커밋
+
+   (18_MyFlagment) 
+    . 화면두개제어 버튼클릭사용방법, 화면 교체 => 프래그먼트 매니저 사용
+    . 순서 : 프래그먼트두개 화면에 올리기, 메인화면에서 프래그먼트 교체
+    . res - layout - 오른쪽마우스 - new - Layout resour file 
+                                               -> 레이아웃 xml파일 만듬
+      그런후 Fragment를 상속한 자바파일을 만든다
+   
+   (19_MyFlagment1) 
+    : 리스트 프래그먼트와 뷰어 프래그먼트를 만들어 메인에 붙인후
+      리스트 프래그먼트에 이미지선택할때 선택된이미지가 어떤것인지 알려주는
+      콜백함수를 인터페이스로 만들어 메인에 implements해주고 메인에서 
+      오버라이드 하면서 프래그먼트에서 액티비티로 전달되게 한다.
+
+
+   * 뷰페이저 : xml에 ViewPager를 넣은 다음 어댑터 안에 프래그먼트를 추가하여
+                추가한 프래그먼트를 손가락으로 넘기듯 볼 수 있다
+                PagerTabStrip에 의해 좌우에 다음 페이지를 보여줄수 있다
+                (어댑터에 getPageTitle를 오버라이드 시켜야함)
+                      
+   
+   * 옵션메뉴 와 액션바 : 액션바란 타이틀과 옵션메뉴부분을 합쳐 말한다
+                         액션바는 화면에 보이거나 보이지않게 할수 있습니다.
+       1. res -> values -> styles.xml -> DarkActionBar를 NoActionBar로 바꿈 
+       2. import androidx.appcompat.app.ActionBar;
+          ActionBar abar = getSupportActionBar();
+          abar.hide();
+
+   * 메뉴 : 옵션메뉴 => 메뉴 xml 만들어서 메뉴 아이템 추가해야함, 
+                      메인액티비티에 onCreateOptionsMenu, 
+                       onOptionItemSelected 오버라이드 시켜야함
+   
+
+   (20_MyOptionMenu) 
+    : showAsAction 앞 android : 을 app: 으로 변경해야함(아이콘으로 할경우) 
+
+   (21_MyActionBar1) 
+    : orderInCatagory -> 메뉴가 보이는 순서, 레이아웃을 변경시켜 
+             나타낼수 있다 (숫자가 작은 수부터 보임)
+
+   탭
+   (22_MyTab) 
+   1.File -> Project Structure ->  app -> Dependencies 탭 -> 오른쪽 + -> 
+             design:29.0.0 추가
+   2.activity_main에 추가부분 추가
+   3.fragment1.xml,fragment2.xml,fragment3.xml 만듬 : 버튼하나, 배경색 바꿔서
+   4.Fragment1.java 를 클래스를 이용하여 만들고 Fragment를 상속받아 
+             onCreateView()를 제네레이터를 이용하여 오버라이딩시킴
+   5.그안에 ViewGroup rootView = 
+             (ViewGroup) inflater.inflate(R.layout.fragment1, container, flase);
+   6.return rootView; 추가
+   7.res/values/style.xml 에 가서 
+           parent="Theme.AppCompat.Light.NoActionBar" 로 바꿈 : 액션바 영역 없앰
+   8.메인액티비티.java로 가서 각 탭이 눌릴때 이벤트 등록해줌
+
+   
+   * 선택위젯 => 어댑터 사용해야함 : 리스트뷰    
+   * 데이터 선택및 관리는 무조건 어댑터에서 관리함 리스트뷰는 껍데기임
+
+   (23_MyListView)
+   1.먼저 리스트뷰에 들어갈 한개의 아이템모양을 item.xml 로 구성을한다
+   2.다음 데이터(Dao)를 위한 Item.java 파일을 만들어 변수를 만들고 
+      생성자 겟터 셋터를 구성한다
+   3.item.xml 엮어줄(인플래이트) 시킬 ItemView.java를 만들어 xml의 리니어 레이아웃을
+     상속받아 생성자 두개를 만들고 초기화메소드를 만들어 레이아웃인플레이터로 
+     인플레이트시키고  xml에 있는 TextView에 데이터를 입력시킬수 있는 메소드를 
+     setData(String name) 이란 형태로 만들어 놓는다
+   4.MainActivity.java로 와서 BaseAdapter를 상속받은 MyAdapter을 만들어 여기에서 
+     ArrayList<Dao이름>를 만든다
+   5.MyAdapter안에 override/implement 되는것을 확인하여 4가지 넣고 
+     addItem(SingerItem item){item.add(item)}  매소드는 추가한다
+   6,getView()매소드 안에 SingerItemView 객체를 만들고 그객체에 item.get(i)로 
+     현재 리스트뷰 아이템을 얻어서 입력한후 뷰를 리턴시킨다
+   7.onCreate에 리스트뷰 찾고 어댑터 만든후 어댑터에 아이템추가하고 
+     listView.setAdapter(adapter)를 하여 실행
+
+   (24_MyGridView)
+   모두같고 메인xml에 numColumns 속성에 한줄에 들어갈 칼럼수를 정하고 아이템xml
+   자리만 변화시킨다
+
+   (25_MyDateTime) : 알아서 공부
+   복합위젯 : 날짜와 시간을 동시에 바꿀수 있는 위젯을 만든다
+             먼저 datepicker 와 timepicker을 동시에 포함하는 xml파일을 만들고
+             자바파일을 생성하여 xml파일을 인플레이트 시키고 두개 모두를 사용하는
+             onDateTimeClikcListener를 인터페이스로 정의하여 시간이나 날짜가 변경
+             할때 리스너를 통해 변경시킨다.  
+
+   (26_MyCalendar) : 알아서 공부 
+
+   (27_MyDatabase) : 안드로이드 내장 데이터베이스(SQLite)를 사용 
+                      : http://sqlitebrowser.org
+                   데이터베이스 만들기-> 테이블만들기-> 레코드추가,수정,삭제,조회
+
+   (28_MyDatabaseQuery)                  
+
+   (29_MyAudioPlayer)
+   MyAudioPlayer : 음악파일 재생하기 : 인터넷 권한주기
+
+   (30_MyVideoPlayer)
+   MyViderPlayer : 동영상파일 재생하기 : 인터넷 권한주기
+
+   (31_MyAudioRecorder)
+   위험권한 주기 2가지 방법
+    1. 자체적으로 위험권한 주기
+    2. 외부라이브러리 이용한 자동 위험권한 주기
+       그래들(Module:app) 에 새로 만들거나 또는 그래들(Project:)에 붙여도 됨 
+       allprojects {
+         repositories {
+           maven { url 'https://jitpack.io' }
+           }
+       }
+       
+       dependencies {
+         implementation 'com.github.pedroSG94:AutoPermissions:1.0.3'
+       }
+
+       MainActivity onCreate에 추가
+       - 최상위에 implements AutoPermissionsListener 추가
+       - AutoPermissions.Companion.loadAllPermissions(this, 101);
+
+       오버라이드 시킴
+       @Override
+       public void onRequestPermissionsResult(int requestCode, String permissions[],
+                                           int[] grantResults) {
+          super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+          AutoPermissions.Companion.parsePermissions(this, requestCode, permissions, this);
+       }
+
+       @Override
+       public void onDenied(int requestCode, @NotNull String[] permissions) {
+          Toast.makeText(this, "permissions denied : " + permissions.length,
+                Toast.LENGTH_LONG).show();
+       }
+
+       @Override
+       public void onGranted(int requestCode, @NotNull String[] permissions) {
+                Toast.makeText(this, "permissions granted : " + permissions.length,                 Toast.LENGTH_LONG).show();
+       }
+
+   MyAudioRecorder : 위에것에다 붙임 : 음악파일 녹음하기 저장위치 
+                                     : storage-sdcard0 에있슴
+   
+   (32_MyVideoRecorder)
+   MyVideoRecorder : 동영상파일 찍어 저장하기
+                     카메라미리보기는 프레임레이아웃안에 SerfaceView객체를 만든후
+                     xml레이아웃에 정의된 프레임레이아웃 객체에 추가
+                     SurfaceView는 서피스홀더에 의해 제어
+                     
+
+   (34_MyCaptureIntent 사진찍어 저장하기 : 1번 자체적으로 위험 권한 부여하기 
+   1.사진찍어 주는 앱을 사용하여 사진만 받는 방법(인텐드 사용) 
+     : MycarmeaIntent : 매니패스트 권한설정
+        - xml 폴더를 만들어 filepaths라는 파일을 만든다
+	- 매니패스트 파일에 <provider> 를 만들어 준다
+	- MainActivity.java에  intent.putExtra(MediaStore.EXTRA_OUTPUT,
+          FileProvider.getUriForFile(getApplicationContext(), 
+		"My34_CaptureIntent.fileprovider", file)); 로 변경한다. 
+
+   (33_MyCapture)
+   2.사용자가 직접 카메라 기능 사용하여 찍어서 저장하는 방법 
+     (서피스 뷰 사용) : 카메라 미리보기 화면부분은 CamereSurfaceView라는 클래스를
+                      새로 정의하여 추가하는 방식
+   
+   유튜브 재생하기
+   - 유튜브에서 제공하는 API 다운로드 받기
+     https://developers.google.com/youtube/android/player/downloads
+   - 압축푼후 libs 폴더에 있는 jar 파일 project 상태에서 libs폴더 아래에
+     복사한 후 sync
+   - 구글 API키 발급받아 String로 저장 , 플레이 할 videoId 복사해 넣음
+     아래에서 발급받는 방법 있음
+
+ 
+   (34_MyLocation)
+   1.GPS이용하여 나의 위치확인하기
+     위치관리자 객체참조하기 -> 위치리스너 구현 -> 위치정보 업데이트 
+      -> 매니페스트 권한추가
+   
+   (35_MyLocationMap) : 권한줘야 함
+   내 위치 지도에 표시하기 
+   1.SDK Manager 실행 -> SDK Tools 탭선택 -> Google Play service 모듈 
+     설치되었는가 확인
+   2.새프로젝트 만들고 그안에 Library dependency -> play-services 추가
+   3.레이아웃에 지도를 보여주기위한 프레그먼트 추가 : 
+     SupportMapFragment : 예전 버전 지원
+     MapFragment : 예전 버전 지원 안함
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/button"
+        class="com.google.android.gms.maps.SupportMapFragment" />
+   4.자바소스에서 레이아웃 참조한후 getMapAsync() 메소드 호출하면 
+     getMapReady() 자동호출
+   5.메니페스트에 권한등록
+   6.구글맵 API키 발급받아 메니페스트에 설정
+     키 발급받기
+     .http://console.developers.google.com
+     .새 프로젝트를 만들라 하면 MyMap라 하고 프로젝트 생성
+     .라이브러리 클릭-> Google Maps API 중 Google Maps Android API 클릭
+     .위에 [사용설정] 클릭
+     .왼쪽메뉴에 [사용자 인증정보]클릭 : 키 생성하기위해
+     .[사용자 인증 정보 만들기] 클릭 -> 팝업화면중 [API 키] 선택
+     .키 제한은 책에서 설명
+     .DexIndexOverflowException 에러가 뜨면 
+       1.build.gradle 파일에서 dependencies안에 다음내용 추가
+         compile 'com.android.support:multidex:+'
+       2.build.gradle 파일에서 android 안에 defaultConfig 에 다음내용 추가 
+         multiDexEnabled true
+       3.AndroidManifest.xml 파일의 추가
+          <application
+                 android:name="android.support.multidex.MultiDexApplication">
+   
+
+   (36_MyLocationMapOverlay) : 타겟버전을 22로 낮추자(지금은 않됨)
+   지도에 내위치 표시하기 : 
+   지도에 아이콘 표시하기 : 
+
+   마커 만들어 보이기
+
+
+   My38_IsNetwork : 네트워크가 연결되어 있는가(와이파이, 공동망)
+
+   My39_Alarm : 진동, 기본음, 지정음으로 알려줌
+
+   My40_Notice : 알림메세지    // 푸쉬서비스, 센서, 시스템서비스는 각자
+
+   My41_AsyncTask : 핸들러를 사용하다보면 코드가 많고 순서없이 실행되는 느낌
+       따라서 좀 더 간단하게 작업하는 방법이 바로 AsyncTask 방법이다
+       AsyncTask = Thread + Handler
+
+     - 페이지 489
+     - AsyncTask 객체를 만들어 execute() 메서드를 실행하면 이 객체는 
+       백그라운드에서 작업을 수행하고 필요한 경우에 그 결과를 메인 스레드에서
+       실행하므로 UI객체에 접근할 수도 있다
+       $ doInBackground : 새로 만든 백그라운드에서 작업수행 
+          - execute() 메서드 호출시 사용한 파라메터를 배열로 전달받음
+       $ onPreExecute : 메인 스레드에서 실행 - 초기화 작업, 메인 스레드에서 실행
+          - 백그라운드 작업 전에 실행
+       $ onProgressUpdate : 백그라운드 작업중간 중간 진행상태를 표시하기 위해 
+                            UI 객체에 접근하는 경우 - 메인 스레드에서 실행
+          - 이 메서드가 호출되려면 publishProgress() 메서드를 사용
+       $ onPostEcecute : 백그라운드 작업끝난뒤 호출 - 메인 스레드에서 실행
+         - 메모리 리소스 해제 등 작업에 사용 결과는 Result 타입의 파라미터로 전달
+
+    - Task.cancel() 메서드 이용하면 작업취소가 가능 : onCancelled() 메서드 호출됨
+    - 작업 진행상황 알고 싶으면 Task.getStatus() 메서드 사용 
+         : 반환값 PENDING -> 아직 시작 않함
+                  RUNNING -> 실행중
+                  FINISHED -> 종료됨  
+            
+
+=================================================================================
+My_Project  폴더
+   
+   이제부터 통신을 이용한 미니 프로젝트를 만들어 보자.
+   일단 로그인부터 시작해 보자
+   로그인을 하기 위해서 통신을 사용하는 방법 알아보자 
+   먼저 로컬 네트워크를 이용하므로 WIFI를 같은 로컬 SSID를 사용해야함 
+   
+My43_Project_Login
+   - 안드로이드에서 화면구성 후 데이터 보내기
+   - 서버에서 보낸 데이터 받기
+   - 서버와 데이터베이스 간 통신
+   - 안드로이드로 결과 송신 
+   - 안드로이드에서 결과 수신 후 화면전환
+
+
+   1. 메니페스트에 권한 넣기 : 위험권한 추가하기
+     - INTERNET , NETWORK, WIFI
+     - https가 아니라 http로 오더라도 그냥 허가
+       <application
+          android:usesCleartextTraffic="true"/>  
+     - <!-- http 라이브러리 사용 -->
+       <uses-library android:name="org.apache.http.legacy"                                           android:required="false" />
+
+   2. 그래들(두번째)에 라이브러리 위치 넣기
+     - android {
+          compileSdkVersion 29
+          buildToolsVersion "29.0.0"
+              ........
+             
+          /* http 사용하는 라이브러리 */
+          useLibrary 'org.apache.http.legacy'
+   
+       }
+     - dependencies {
+          /* 안드로이드와 통신할수 있는 버전 가져오기  */
+          implementation group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
+          implementation('org.apache.httpcomponents:httpmime:4.3') {
+             exclude module: "httpclient"
+          }
+       }
+
+   3. xml -> 안드로이드 화면 구성하기
+   
+   4. DTO 패키지 만들어 멤버DTO 만들기(DB에 있는 멤버 테이블과 같게 만든다)
+
+   5. DB에 멤버 테이블 만들기 (테이블이름:MEMBER)
+
+   6. Common 패키지만들어 IP주소 static으로 등록
+
+   7. Login 버튼에 클릭리스너 달고 통신할수 있는 ATask 패키지 만들어 
+      id,pw 보내 select 통신만들기, 회원가입
+
+   8. 서버(미들웨어) 만들기
+
+   - 만약 서버 refuse 가 일어나면 권한때문일수 있으니 앱 완전히 지우고 다시 
+     컴파일
+
+
+
+My44_Project_Multipart_select
+
+   1. 메니페스트에 권한 넣기   
+     - 저장장치 읽고 쓰기, 카메라 : 메인에도 추가
+     - </application> 바로 위쪽에 추가
+     <!-- API24 이상부터 Url 이 file:// 로 시작되면 안되서 content:// 으로 
+          변환시키는 부분 -->
+        <provider
+            android:authorities="${applicationId}.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths"/>
+        </provider>
+     - res폴더 아래에 xml폴더를 만들어 filepaths.xml파일 생성
+       <paths>
+          <external-path name="storage/emulated" path="."/>
+       </paths>
+
+   2. 그래들(app)에 리사이클러 뷰와 이미지로더를 사용할수있는 라이브러리 추가
+  
+   3. Sub1 화면 생성하기 
+     - Sub1화면 생성
+     - MyItem : DTO 생성
+     - DTO 에 맞는 myitem_view 생성
+     - 어댑터를 만들고 그 아래에 인너클래스로 ViewHolder를 만들고 뷰홀더를
+       어댑터에 extends 시킨다
+     - Sub1.xml에  위에 버튼4개와 아래 리싸이클러뷰와 프로그래스바를 위치시킨다
+     - Sub1.java에 각 버튼을 찾고 listSelect AsyncTask를 마지막에 실행시켜
+       리사이클러뷰에 내용을 보이게 한다 
+
+
+My45_Project_Multipart_Insert : 메니패스트에 액티비티추가 
+   
+   1. 텍스트와 사진파일 선택하기
+   2. 서버에 텍스트와 사진파일 보내기
+   3. 서버에서 데이터베이스에 저장하기
+   4. 저장후 화면 갱신하기
+
+
+My46_Project_Multipart_Update : 메니패스트에 액티비티추가 
+
+   1. 화면은 insert와 같다
+   2. 선택한 화면의 정보를 가지고 업데이트 화면으로 띄운다
+   3. 데이터중 사진이 바뀐경우와 바뀐경우로 나눠서 서버에서 받는다.
+
+   4. 삭제도 같이 설명
+
+
+
+
+
+
+
+이미지 업다운(안드로이드 스튜디오)
+ 
+다운로드 :   compile files('libs/universal-image-loader-1.9.5.jar')
+
+업로드 : https://github.com/kosalgeek/PhotoUtil => PhotoUtil.jar
+
+GenAsync.jar
+   
+   
+
+   
+   
+   
+   

@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+D:\ChossLec\AndroidProject_190524\AndroidMultiPart_Custom_190422\SpringWorkspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2660706954.index
+627978299.index
+1511019416.index
+3533073979.index
+3068942022.index
+1633100467.index
+3810253394.index

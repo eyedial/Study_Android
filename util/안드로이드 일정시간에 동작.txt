@@ -1,0 +1,54 @@
+CountDownTimer CDT;
+
+    //======================================================================================// 블루투스
+
+////////////////////////////////////////////////////////////
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+
+        /*Intent intent = new Intent(getApplicationContext(), BloothController.class);
+        startActivity(intent);*/
+
+
+        textView = findViewById(R.id.textView);
+
+        button1 = findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(button1.getText().toString().equals("측정시작")){
+                    CDT.start();
+                    button1.setText("측정종료");
+                }else if(button1.getText().toString().equals("측정종료")){
+                    CDT.cancel();
+                    button1.setText("측정시작");
+                }
+
+            }
+        });
+
+        CDT = new CountDownTimer(60 * 1000, 3000) {
+            public void onTick(long millisUntilFinished) {
+                //반복실행할 구문
+                sendData("g");         // 상태 확인문자 우노보드로 보내기
+                try {
+                    Thread.sleep(1000); // 잠시대기
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                beginListenForData();
+            }
+            public void onFinish() {
+                //마지막에 실행할 구문
+                CDT.start();
+            }
+        };
+
+        //CDT.start(); //CountDownTimer 실행
+
+        //CDT.cancel();// 타이머 종료

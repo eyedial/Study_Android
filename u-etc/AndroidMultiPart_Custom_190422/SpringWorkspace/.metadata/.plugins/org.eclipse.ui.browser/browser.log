@@ -1,0 +1,5 @@
+
+4월 23, 2019 10:25:48.73 NEW SESSION
+4월 23, 2019 10:25:48.73 [2816:7384:0423/102548.726:ERROR:http_bridge.cc(126)] NOT IMPLEMENTED
+4월 23, 2019 10:25:48.73 [2816:7236:0423/102548.726:ERROR:get_updates_processor.cc(243)] PostClientToServerMessage() failed during GetUpdates
+4월 23, 2019 10:25:48.80 [2816:6084:0423/102548.801:ERROR:browser_process_sub_thread.cc(209)] Waited 9 ms for network service
