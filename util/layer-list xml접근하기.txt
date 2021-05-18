@@ -1,0 +1,74 @@
+// layer-list xml 접근하기
+        LayerDrawable layerDrawable = (LayerDrawable) getResources().getDrawable(R.drawable.cal_icon4);
+
+        Drawable reOne = getResources().getDrawable(R.drawable.icon13);
+        Drawable reTwo = getResources().getDrawable(R.drawable.icon22);
+        Drawable reThree = getResources().getDrawable(R.drawable.icon34);
+        Drawable refour = getResources().getDrawable(R.drawable.icon55);
+
+        layerDrawable.setDrawableByLayerId(R.id.one, reOne);
+        layerDrawable.setDrawableByLayerId(R.id.two, reTwo);
+        layerDrawable.setDrawableByLayerId(R.id.three, reThree);
+        layerDrawable.setDrawableByLayerId(R.id.four, refour);
+
+        //아이콘 추가1 >> 한개만
+        java.util.Calendar calendar1 = java.util.Calendar.getInstance();
+        calendar1.add(java.util.Calendar.DAY_OF_MONTH, 1);
+        events.add(new EventDay(calendar1, R.drawable.cal_icon4));
+
+
+layer-list.xml =========================================================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/one"
+        android:gravity="top|left"
+        android:width="40dp"
+        android:height="40dp"
+        android:right="40dp"
+        android:drawable="@drawable/icon11" >
+    </item>
+    <item
+        android:id="@+id/two"
+        android:gravity="top|right"
+        android:width="40dp"
+        android:height="40dp"
+        android:drawable="@drawable/icon22" >
+    </item>
+    <item
+        android:id="@+id/three"
+        android:gravity="bottom|left"
+        android:width="40dp"
+        android:height="40dp"
+        android:top="40dp"
+        android:drawable="@drawable/icon33" >
+    </item>
+    <item
+        android:id="@+id/four"
+        android:gravity="bottom|right"
+        android:width="40dp"
+        android:height="40dp"
+        android:drawable="@drawable/icon44" >
+    </item>
+</layer-list>
+
+
+
+calender.xml   ======================================================================================
+
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/Calendar_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sample_icon_4"
+            android:visibility="gone"/>
+
+    </LinearLayout>

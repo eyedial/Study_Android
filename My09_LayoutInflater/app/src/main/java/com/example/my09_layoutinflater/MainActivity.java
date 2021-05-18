@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+// 새 화면을 붙여주는것  
+// 두개로 나누어 붙이면 각각 독립적으로 작동
 public class MainActivity extends AppCompatActivity {
 
     Button button1;

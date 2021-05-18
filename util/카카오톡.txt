@@ -1,0 +1,87 @@
+https://developers.kakao.com/docs/android/user-management
+
+bulid.gradle:
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+        mavenCentral()
+        maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
+    }
+}
+
+dependencies :
+api 'com.kakao.sdk:usermgmt:1.14.0'
+
+GlobalApplication:
+
+public class GlobalApplication extends Application {
+    private static GlobalApplication instance;
+    public static final GlobalApplication getGlobalApplicationContext() {
+        if (instance == null)
+            throw new IllegalStateException("this application does not inherit com.kakao.GlobalApplication");
+        return instance;
+    }
+    protected static class KakaoSDKAdapter extends KakaoAdapter {
+     
+        @Override
+        public ISessionConfig getSessionConfig() {
+            return new ISessionConfig() {
+                @Override
+                public AuthType[] getAuthTypes() {
+                    return new AuthType[]{AuthType.KAKAO_LOGIN_ALL};
+                }
+                @Override
+                public boolean isUsingWebviewTimer() {
+                    return false;
+                }
+                @Override
+                public boolean isSecureMode() {
+                    return false;
+                }
+                @Override
+                public ApprovalType getApprovalType() {
+                    return ApprovalType.INDIVIDUAL;
+                }
+                @Override
+                public boolean isSaveFormData() {
+                    return true;
+                }
+            };
+        }
+        @Override
+        public IApplicationConfig getApplicationConfig() {
+            return new IApplicationConfig() {
+                @Override
+                public Context getApplicationContext() {
+                    return GlobalApplication.getGlobalApplicationContext();
+                }
+            };
+        }
+    }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+
+
+    }
+}
+
+manifest:
+
+ <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
+
+        <activity
+            android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize">
+
+
+	

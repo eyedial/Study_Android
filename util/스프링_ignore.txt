@@ -1,0 +1,20 @@
+// 처음에 올릴때
+target/
+
+
+// 나중에 ignore 파일에 추가 수정후
+.settings/
+src/test/
+.classpath
+.project
+.springBeans
+
+/Servers/
+/.metadata/
+
+
+// 터미널 실행
+git rm -r . --cached    엔터
+git add .               엔터
+
+후에 커밋하고 push

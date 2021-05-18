@@ -1,0 +1,50 @@
+holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d(TAG, "onCheckedChanged: " + isChecked);
+
+                if(holder.checkBox.isChecked() == true){
+                    list.add(holder.textView.getText().toString());
+                }else if(holder.checkBox.isChecked() == false){
+                    for(int i=0; i<list.size(); i++){
+                        if(holder.textView.getText().equals(list.get(i))){
+                            list.remove(i);
+                            break;
+                        }
+                    }
+                }
+
+                for(int i=0; i<list.size(); i++){
+                    Log.d(TAG, "onClick: " + list.get(i));
+                }
+
+            }
+        });
+ 
+=============================================
+public class ViewHolder implements Checkable{
+        public TextView textView;
+        public CheckBox checkBox;
+        public int Position;
+
+
+        @Override
+        public void setChecked(boolean checked) {
+            if(checkBox.isChecked() != checked){
+                checkBox.setChecked(checked) ;
+                Log.d(TAG, "setChecked: " + checkBox.isChecked());
+            }
+        }
+
+        @Override
+        public boolean isChecked() {
+            Log.d(TAG, "isChecked: " + checkBox.isChecked());
+            return checkBox.isChecked() ;
+        }
+
+        @Override
+        public void toggle() {
+            setChecked(checkBox.isChecked() ? false : true) ;
+            Log.d(TAG, "toggle: " + checkBox.isChecked());
+        }
+    }

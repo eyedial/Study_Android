@@ -1,0 +1,66 @@
+//마커
+
+private void showEnt_LocationMarker(Location location){
+        if (ent_Marker == null){
+            ent_Marker = new MarkerOptions();
+            ent_Marker.position(new LatLng(location.getLatitude(),location.getLongitude()));
+            ent_Marker.title("가게이름");
+            ent_Marker.snippet("010-0000-0000");
+            ent_Marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ent_location));
+            map.addMarker(ent_Marker);
+
+        }else if(ent_Marker != null){
+
+        }
+
+        //마커 클릭 리스너
+        this.map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                LatLng shopMarker = marker.getPosition();
+                shopLoc = shopMarker;
+
+                Double distance = getDistance(myLoc, shopLoc);
+                Log.d(TAG, "onMarkerClick: distance => " + distance);
+
+                Toast.makeText(getApplicationContext(), "나와의 거리" + distance, Toast.LENGTH_LONG).show();
+                Simple
+                return true;
+            }
+        });
+
+
+	// 마커 정보창 클릭
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Toast.makeText(getApplicationContext(), "해당 가게로 이동합니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),ShopDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        CircleOptions circle100m = new CircleOptions().center(new LatLng(latitude, longitude))
+                .radius(100).strokeWidth(0f)
+                .fillColor(Color.parseColor("#000000"));
+
+        this.map.addCircle(circle100m);
+
+    }
+
+
+
+// 두지점간 거리 구하기
+    public double getDistance(LatLng LatLng1, LatLng LatLng2) { // 내위치, 가게위치
+        double distance = 0;
+        Location locationA = new Location("A");
+        locationA.setLatitude(LatLng1.latitude);
+        locationA.setLongitude(LatLng1.longitude);
+        Location locationB = new Location("B");
+        locationB.setLatitude(LatLng2.latitude);
+        locationB.setLongitude(LatLng2.longitude);
+        distance = locationA.distanceTo(locationB);
+
+        return distance;
+    }
